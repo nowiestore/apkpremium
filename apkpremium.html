@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="APK Premium murah di NowieStore. Streaming & Editing Apps harga terbaik.">
+  <title>APK Premium — NowieStore</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Fredoka+One&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body { background: #fff0f5; color: #3a1a2e; font-family: 'Nunito', sans-serif; min-height: 100vh; overflow-x: hidden; }
+
+    /* HERO */
+    .game-hero {
+      position: relative;
+      padding: clamp(2rem,5vw,3rem) clamp(1rem,4vw,2rem) clamp(1.5rem,4vw,2rem);
+      text-align: center;
+      background: linear-gradient(160deg, #ffe4f0, #ffd6e8, #fce4ff);
+      overflow: hidden;
+    }
+
+    .game-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 80% at 50% 0%, rgba(212,32,117,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .back-btn {
+      position: absolute;
+      top: 1rem;
+      left: clamp(1rem,4vw,2rem);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: #c07090;
+      text-decoration: none;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 700;
+      transition: color 0.2s;
+    }
+    .back-btn:hover { color: #d42075; }
+
+    .game-hero-icon {
+      width: 88px; height: 88px;
+      border-radius: 22px;
+      background: #fff;
+      border: 2px solid rgba(212,32,117,0.2);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1rem;
+      box-shadow: 0 4px 20px rgba(212,32,117,0.12);
+      overflow: hidden;
+      font-size: 2.5rem;
+    }
+
+    .game-hero h1 { font-family: 'Fredoka One', cursive; font-size: clamp(1.6rem,5vw,2.3rem); font-weight: 400; color: #d42075; margin-bottom: 0.4rem; }
+    .game-hero-sub { font-size: 0.85rem; color: #a0547a; }
+
+    /* SECTION */
+    .section { max-width: 620px; margin: 0 auto; padding: 1.5rem clamp(1rem,4vw,1.5rem); }
+
+    .section-title {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: #d42075;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-title::after { content: ''; flex: 1; height: 2px; background: linear-gradient(90deg, rgba(212,32,117,0.25), transparent); border-radius: 2px; }
+
+    /* ACCORDION */
+    .app-list { display: flex; flex-direction: column; gap: 0.65rem; }
+
+    .app-item {
+      background: #fff;
+      border: 2px solid rgba(212,32,117,0.1);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(212,32,117,0.06);
+      transition: border-color 0.2s;
+    }
+
+    .app-item.open { border-color: rgba(212,32,117,0.3); }
+
+    .app-header {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.85rem 1rem;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s;
+    }
+
+    .app-header:hover { background: rgba(212,32,117,0.03); }
+
+    .app-logo {
+      width: 46px; height: 46px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #ffe4f0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      border: 1.5px solid rgba(212,32,117,0.1);
+    }
+
+    .app-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .app-info { flex: 1; }
+
+    .app-name { font-family: 'Fredoka One', cursive; font-size: 1rem; font-weight: 400; color: #3a1a2e; line-height: 1.2; }
+
+    .app-pkg-count { font-size: 0.68rem; color: #c07090; font-weight: 600; margin-top: 0.1rem; }
+
+    .app-arrow {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: rgba(212,32,117,0.08);
+      display: flex; align-items: center; justify-content: center;
+      color: #d42075;
+      font-size: 1rem;
+      flex-shrink: 0;
+      transition: transform 0.25s, background 0.2s;
+    }
+
+    .app-item.open .app-arrow { transform: rotate(180deg); background: rgba(212,32,117,0.15); }
+
+    /* PACKAGES PANEL */
+    .app-packages {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .app-item.open .app-packages { max-height: 600px; }
+
+    .pkg-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 0.6rem;
+      padding: 0 0.85rem 0.85rem;
+    }
+
+    .pkg-card {
+      background: #fff0f5;
+      border: 1.5px solid rgba(212,32,117,0.12);
+      border-radius: 12px;
+      padding: 0.75rem 0.6rem;
+      cursor: pointer;
+      text-align: center;
+      transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
+    }
+
+    .pkg-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(212,32,117,0.4);
+      box-shadow: 0 4px 14px rgba(212,32,117,0.12);
+    }
+
+    .pkg-card:active { transform: translateY(0); }
+
+    .pkg-name { font-size: 0.72rem; font-weight: 800; color: #3a1a2e; margin-bottom: 0.25rem; line-height: 1.3; }
+    .pkg-price { font-family: 'Fredoka One', cursive; font-size: 0.95rem; color: #d42075; }
+
+    .pkg-wa {
+      display: block;
+      margin: 0.4rem auto 0;
+      width: 18px; height: 18px;
+      opacity: 0.3;
+      transition: opacity 0.2s;
+    }
+
+    .pkg-card:hover .pkg-wa { opacity: 1; }
+
+    /* NOTES */
+    .notes-box { max-width: 620px; margin: 0 auto; padding: 0 clamp(1rem,4vw,1.5rem) 1.5rem; }
+
+    .notes-inner {
+      background: #fff;
+      border: 1.5px solid rgba(212,32,117,0.12);
+      border-left: 3px solid #d42075;
+      border-radius: 12px;
+      padding: 1rem 1.1rem;
+      font-size: 0.78rem;
+      color: #a0547a;
+      line-height: 1.9;
+    }
+
+    .notes-inner strong { color: #d42075; display: block; margin-bottom: 0.3rem; font-size: 0.82rem; }
+    .note-hi { color: #d42075; font-weight: 700; }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .app-item { animation: fadeUp 0.3s ease both; }
+    .app-item:nth-child(1)  { animation-delay: 0.03s; } .app-item:nth-child(2)  { animation-delay: 0.06s; }
+    .app-item:nth-child(3)  { animation-delay: 0.09s; } .app-item:nth-child(4)  { animation-delay: 0.12s; }
+    .app-item:nth-child(5)  { animation-delay: 0.15s; } .app-item:nth-child(6)  { animation-delay: 0.18s; }
+    .app-item:nth-child(7)  { animation-delay: 0.21s; } .app-item:nth-child(8)  { animation-delay: 0.24s; }
+    .app-item:nth-child(9)  { animation-delay: 0.27s; } .app-item:nth-child(10) { animation-delay: 0.30s; }
+    .app-item:nth-child(11) { animation-delay: 0.33s; } .app-item:nth-child(12) { animation-delay: 0.36s; }
+    .app-item:nth-child(13) { animation-delay: 0.39s; } .app-item:nth-child(14) { animation-delay: 0.42s; }
+    .app-item:nth-child(15) { animation-delay: 0.45s; } .app-item:nth-child(16) { animation-delay: 0.48s; }
+  </style>
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+
+<section class="game-hero">
+  <a href="https://nowiestore.github.io/" class="back-btn">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+    Kembali
+  </a>
+  <div class="game-hero-icon">📱</div>
+  <h1>APK Premium</h1>
+  <p class="game-hero-sub">Streaming & Editing Apps — Harga Terjangkau, Bergaransi</p>
+</section>
+
+<div class="section">
+  <div class="section-title">🎬 Streaming Apps</div>
+  <div class="app-list" id="streaming-list"></div>
+</div>
+
+<div class="section" style="padding-top:0">
+  <div class="section-title">✏️ Editing Apps</div>
+  <div class="app-list" id="editing-list"></div>
+</div>
+
+<div class="notes-box">
+  <div class="notes-inner">
+    <strong>📋 Catatan Penting</strong>
+    ⤿ <span class="note-hi">Wajib tanya stock</span> sebelum order<br>
+    ⤿ Bergaransi sesuai syarat & ketentuan<br>
+    ⤿ Klik paket → WA terbuka otomatis dengan detail pesanan
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+
+<script>
+  var WA = '6281293106630';
+
+  var BASE = 'https://nowiestore.github.io/apkpremium/';
+
+  var WA_SVG = '<svg class="pkg-wa" viewBox="0 0 24 24" fill="#25d366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>';
+
+  var STREAMING = [
+    {
+      name: 'Netflix', logo: 'netflix.png', emoji: '🎬',
+      packages: [
+        { name: '1P1U 7 Hari',    price: 'Rp 12.000' },
+        { name: '1P1U 1 Bulan',   price: 'Rp 32.000' },
+        { name: 'Semi 7 Hari',    price: 'Rp 15.000' },
+        { name: 'Semi 1 Bulan',   price: 'Rp 37.000' },
+      ]
+    },
+    {
+      name: 'Disney+', logo: 'disney.png', emoji: '🏰',
+      packages: [
+        { name: 'Sharing 7 Hari',  price: 'Rp 7.000'  },
+        { name: 'Sharing 1 Bulan', price: 'Rp 15.000' },
+      ]
+    },
+    {
+      name: 'Bstation', logo: 'bstation.png', emoji: '📺',
+      packages: [
+        { name: 'Sharing 1 Bulan', price: 'Rp 5.000'  },
+        { name: 'Private 1 Bulan', price: 'Rp 28.000' },
+        { name: 'Sharing 1 Tahun', price: 'Rp 12.000' },
+      ]
+    },
+    {
+      name: 'Viu Anlim', logo: 'viu.png', emoji: '📡',
+      packages: [
+        { name: 'Private 1 Tahun',  price: 'Rp 1.500' },
+        { name: 'Private Lifetime', price: 'Rp 3.500' },
+      ]
+    },
+    {
+      name: 'YouTube Premium', logo: 'youtube.png', emoji: '▶️',
+      packages: [
+        { name: 'IndPlan/Head 1 Bulan', price: 'Rp 3.000' },
+      ]
+    },
+    {
+      name: 'HBO Max', logo: 'hbo.png', emoji: '🎭',
+      packages: [
+        { name: 'Sharing Std 1 Bulan',  price: 'Rp 12.000' },
+        { name: 'Private Std 1 Bulan',  price: 'Rp 45.000' },
+        { name: 'Sharing Ulti 1 Bulan', price: 'Rp 15.000' },
+        { name: 'Private Ulti 1 Bulan', price: 'Rp 60.000' },
+      ]
+    },
+    {
+      name: 'Loklok', logo: 'loklok.png', emoji: '🔐',
+      packages: [
+        { name: 'Sharing Basic 1 Bulan',  price: 'Rp 15.000' },
+        { name: 'Private Basic 1 Bulan',  price: 'Rp 45.000' },
+        { name: 'Sharing Std 1 Bulan',    price: 'Rp 17.000' },
+        { name: 'Private Std 1 Bulan',    price: 'Rp 65.000' },
+      ]
+    },
+    {
+      name: 'Vidio Platinum', logo: 'vidio.png', emoji: '📹',
+      packages: [
+        { name: 'Private TV Only 1 Bulan',  price: 'Rp 4.000'  },
+        { name: 'Sharing Mobile 1 Bulan',   price: 'Rp 13.500' },
+        { name: 'Private Mobile 1 Bulan',   price: 'Rp 25.000' },
+      ]
+    },
+    {
+      name: 'WeTV', logo: 'wetv.png', emoji: '📽️',
+      packages: [
+        { name: 'Sharing 1 Bulan', price: 'Rp 6.500'  },
+        { name: 'Private 1 Bulan', price: 'Rp 25.000' },
+      ]
+    },
+    {
+      name: 'iQIYI', logo: 'iqiyi.png', emoji: '🎞️',
+      packages: [
+        { name: 'Sharing Std 1 Bulan',  price: 'Rp 5.000' },
+        { name: 'Sharing Prem 1 Bulan', price: 'Rp 6.500' },
+      ]
+    },
+    {
+      name: 'Amazon Prime', logo: 'amazon.png', emoji: '📦',
+      packages: [
+        { name: 'Sharing 1 Bulan', price: 'Rp 5.000'  },
+        { name: 'Private 1 Bulan', price: 'Rp 11.000' },
+      ]
+    },
+  ];
+
+  var EDITING = [
+    {
+      name: 'Alight Motion', logo: 'alight.png', emoji: '✨',
+      packages: [
+        { name: 'Acc Buyer 1 Tahun',  price: 'Rp 1.000' },
+        { name: 'AM Google 1 Tahun',  price: 'Rp 4.000' },
+      ]
+    },
+    {
+      name: 'Canva', logo: 'canva.png', emoji: '🎨',
+      packages: [
+        { name: 'Member 1 Bulan (+desain)', price: 'Rp 1.000' },
+        { name: 'Head 1 Bulan',             price: 'Rp 6.500' },
+      ]
+    },
+    {
+      name: 'CapCut', logo: 'capcut.png', emoji: '🎬',
+      packages: [
+        { name: 'Private 7 Hari',   price: 'Rp 2.500' },
+        { name: 'Private 1 Bulan',  price: 'Rp 8.000' },
+        { name: 'Sharing 1 Bulan',  price: 'Rp 3.000' },
+      ]
+    },
+    {
+      name: 'Wink Android', logo: 'wink.png', emoji: '👁️',
+      packages: [
+        { name: 'Private 7 Hari', price: 'Rp 2.500' },
+      ]
+    },
+    {
+      name: 'Meitu Android', logo: 'meitu.png', emoji: '🌸',
+      packages: [
+        { name: 'Private 7 Hari',  price: 'Rp 6.000'  },
+        { name: 'Private 1 Bulan', price: 'Rp 16.000' },
+      ]
+    },
+  ];
+
+  function buildList(apps, containerId) {
+    var container = document.getElementById(containerId);
+    apps.forEach(function(app) {
+      var item = document.createElement('div');
+      item.className = 'app-item';
+
+      // Header
+      var header = document.createElement('div');
+      header.className = 'app-header';
+      header.innerHTML =
+        '<div class="app-logo"><img src="' + BASE + app.logo + '" alt="' + app.name + '" onerror="this.style.display=\'none\';this.parentElement.innerHTML=\'' + app.emoji + '\'"></div>' +
+        '<div class="app-info"><div class="app-name">' + app.name + '</div><div class="app-pkg-count">' + app.packages.length + ' paket tersedia</div></div>' +
+        '<div class="app-arrow">▾</div>';
+
+      // Packages
+      var pkgPanel = document.createElement('div');
+      pkgPanel.className = 'app-packages';
+      var grid = document.createElement('div');
+      grid.className = 'pkg-grid';
+
+      app.packages.forEach(function(pkg) {
+        var card = document.createElement('div');
+        card.className = 'pkg-card';
+        var waMsg = encodeURIComponent(
+          'Halo NowieStore, saya mau beli APK Premium:\n' +
+          '• App: ' + app.name + '\n' +
+          '• Paket: ' + pkg.name + '\n' +
+          '• Harga: ' + pkg.price + '\n\n' +
+          'Mohon cek stock dan bantuannya, terima kasih!'
+        );
+        card.innerHTML = '<div class="pkg-name">' + pkg.name + '</div><div class="pkg-price">' + pkg.price + '</div>' + WA_SVG;
+        card.addEventListener('click', function(e) {
+          e.stopPropagation();
+          window.open('https://wa.me/' + WA + '?text=' + waMsg, '_blank');
+        });
+        grid.appendChild(card);
+      });
+
+      pkgPanel.appendChild(grid);
+      item.appendChild(header);
+      item.appendChild(pkgPanel);
+
+      // Toggle
+      header.addEventListener('click', function() {
+        var isOpen = item.classList.contains('open');
+        // Tutup semua di container yang sama
+        container.querySelectorAll('.app-item.open').forEach(function(el) {
+          el.classList.remove('open');
+        });
+        if (!isOpen) item.classList.add('open');
+      });
+
+      container.appendChild(item);
+    });
+  }
+
+  buildList(STREAMING, 'streaming-list');
+  buildList(EDITING,   'editing-list');
+
+  function loadComponent(id, url) {
+    fetch(url).then(r => r.text()).then(html => {
+      document.getElementById(id).innerHTML = html;
+      document.getElementById(id).querySelectorAll('script').forEach(function(s) {
+        var ns = document.createElement('script'); ns.textContent = s.textContent; document.body.appendChild(ns);
+      });
+    }).catch(function() {
+      if (id === 'header-placeholder') document.getElementById(id).innerHTML = '<div style="height:62px;background:#fff0f5;border-bottom:2px solid rgba(212,32,117,0.12);display:flex;align-items:center;padding:0 1.5rem;font-family:Fredoka One,cursive;color:#d42075;font-size:1.3rem;">🌸 NowieStore</div>';
+    });
+  }
+
+  loadComponent('header-placeholder', 'https://nowiestore.github.io/header.html');
+  loadComponent('footer-placeholder', 'https://nowiestore.github.io/footer.html');
+</script>
+</body>
+</html>
